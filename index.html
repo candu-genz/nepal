@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For Aarushi 💖</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(120deg,#fbc2eb,#a18cd1,#6a85f1,#b2fefa);
+  overflow:hidden;
+  font-family:Poppins,sans-serif;
+}
+
+.card{
+  background:white;
+  width:380px;
+  padding:30px;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 0 35px rgba(180,120,255,0.6);
+}
+
+img{
+  width:200px;
+  border-radius:15px;
+  display:block;
+  margin:auto;
+}
+
+iframe{
+  width:100%;
+  height:220px;
+  border-radius:15px;
+  display:none;
+  border:none;
+  margin-top:10px;
+}
+
+h2{
+  min-height:70px;
+  color:#6a4cff;
+}
+
+button{
+  padding:12px 30px;
+  border:none;
+  border-radius:30px;
+  background:#ff7eb3;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  margin:5px;
+}
+
+textarea{
+  width:90%;
+  height:80px;
+  border-radius:10px;
+  padding:10px;
+}
+
+.heart{
+  position:absolute;
+  animation:float 6s linear infinite;
+}
+
+@keyframes float{
+  from{transform:translateY(0);}
+  to{transform:translateY(-100vh);}
+}
+
+/* 🌈 Animated background */
+@keyframes dreamyBG{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+/* 💗 Card pulse */
+@keyframes pulseCard{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.04);}
+  100%{transform:scale(1);}
+}
+
+/* ✨ Sparkles */
+.sparkle{
+  position:absolute;
+  font-size:14px;
+  animation:sparkleFloat 8s linear infinite;
+}
+
+@keyframes sparkleFloat{
+  from{transform:translateY(0);opacity:1;}
+  to{transform:translateY(-120vh);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Music -->
+<audio autoplay loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c4d6a9b61.mp3">
+</audio>
+
+<!-- Click Sound -->
+<audio id="clickSound">
+<source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_2c4c95cbb4.mp3">
+</audio>
+
+<div class="card">
+
+<img id="gif" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
+
+<iframe id="surpriseVideo"></iframe>
+
+<h2 id="question"></h2>
+
+<div id="buttons">
+<button onclick="playClick(); start()">Start 💖</button>
+</div>
+
+</div>
+
+<script>
+
+// 🎥 Drive Video
+const DRIVE_VIDEO =
+"https://drive.google.com/file/d/1QH3QqUzCoNgM0IFLK_01UOleNsrbd8_t/preview";
+
+const steps=[
+"Hey Nepal 💖",
+"How are you feeling today? 🤍",
+"Did something bother you today? 🥺",
+"Want to tell me what happened? 💬",
+"You know you're my best friend and my family, right? 🤝💞",
+"You inspire me to become better every day 💪",
+"Because of you, I feel more confident talking to people 🗣️✨",
+"Do you want to see a small surprise? 🎁"
+];
+
+const gifs=[
+"https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif",
+"https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif",
+"https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif",
+"https://media.giphy.com/media/l4FGpPki5v2Bcd6Ss/giphy.gif",
+"https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif",
+"https://media.giphy.com/media/26BRuo6sLetdllPAQ/giphy.gif",
+"https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif",
+"https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif"
+];
+
+let index=0;
+let typingTimer;
+
+const q=document.getElementById("question");
+const gif=document.getElementById("gif");
+const video=document.getElementById("surpriseVideo");
+const buttons=document.getElementById("buttons");
+
+function playClick(){
+ const c=document.getElementById("clickSound");
+ c.currentTime=0;
+ c.play();
+}
+
+function typeText(text){
+ clearInterval(typingTimer);
+ q.innerHTML="";
+ let i=0;
+ typingTimer=setInterval(()=>{
+  q.innerHTML+=text.charAt(i);
+  i++;
+  if(i>=text.length) clearInterval(typingTimer);
+ },40);
+}
+
+function start(){
+ index=0;
+ loadStep();
+}
+
+function loadStep(){
+ typeText(steps[index]);
+ gif.src=gifs[index];
+ gif.style.display="block";
+ video.style.display="none";
+ video.src="";
+ buttons.innerHTML="";
+
+ if(index===2){
+ buttons.innerHTML=`
+ <button onclick="playClick(); imOkay()">I'm okay 🙂</button>
+ <button onclick="playClick(); notOkay()">Not really 😔</button>`;
+ }
+
+ else if(index===3){
+ buttons.innerHTML=`
+ <textarea></textarea><br><br>
+ <button onclick="playClick(); next()">Send 💗</button>`;
+ }
+
+ else if(index===7){
+ buttons.innerHTML=`
+ <button onclick="playClick(); playSurprise()">Play Surprise 🎥</button>
+ <button onclick="playClick(); next()">Next 🌸</button>`;
+ }
+
+ else{
+ buttons.innerHTML=`<button onclick="playClick(); next()">Next 🌸</button>`;
+ }
+}
+
+function next(){
+ index++;
+ if(index<steps.length) loadStep();
+ else{
+  q.innerHTML="Nepal, you are special, valued and deeply appreciated 💖<br>Never stop being YOU 😊";
+  gif.src="https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif";
+  buttons.innerHTML=`<button onclick="playClick(); launchHearts()">Smile 😊</button>`;
+ }
+}
+
+function imOkay(){
+ index=4;
+ loadStep();
+}
+
+function notOkay(){
+ index=3;
+ loadStep();
+}
+
+function playSurprise(){
+ gif.style.display="none";
+ video.style.display="block";
+ video.src=DRIVE_VIDEO;
+}
+
+/* 🌸 FINAL DREAMY CELEBRATION */
+function launchHearts(){
+
+ document.body.style.background =
+ "linear-gradient(-45deg,#ff9a9e,#fecfef,#fbc2eb,#ffd1ff)";
+ document.body.style.backgroundSize="400% 400%";
+ document.body.style.animation="dreamyBG 10s ease infinite";
+
+ document.querySelector(".card").style.animation="pulseCard 2s infinite";
+
+ // Emoji rain
+ setInterval(()=>{
+  for(let i=0;i<6;i++){
+   const h=document.createElement("div");
+   h.className="heart";
+   h.innerHTML=["💖","🌸","🫶","🎀","✨","😍","🥰","💕","💗","😘","💞"][Math.floor(Math.random()*11)];
+   h.style.left=Math.random()*100+"vw";
+   h.style.top="100vh";
+   h.style.fontSize=(18+Math.random()*22)+"px";
+   document.body.appendChild(h);
+   setTimeout(()=>h.remove(),6000);
+  }
+ },120);
+
+ // Sparkles
+ setInterval(()=>{
+  const s=document.createElement("div");
+  s.className="sparkle";
+  s.innerHTML=["✨","🌟","💫","⭐"][Math.floor(Math.random()*4)];
+  s.style.left=Math.random()*100+"vw";
+  s.style.top="100vh";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),8000);
+ },250);
+}
+
+</script>
+
+</body>
+</html>
